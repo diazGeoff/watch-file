@@ -9,7 +9,7 @@ var createFileWatcher = function createFileWatcher( filePath , callBack) {
     var self = this;
 
     this.watcher = function watcher(filePath, changeHandler) {
-        fs.watch(filePath, function( ){
+        fs.watchFile(filePath, {interval: 600},function( ){
             var parameters = Array.prototype.slice.call(arguments);
             changeHandler.apply(self, parameters);
         });
@@ -19,7 +19,7 @@ var createFileWatcher = function createFileWatcher( filePath , callBack) {
         this.directory = filePath.split("/");
         this.directory = this.directory.splice(0, this.directory.length - 1).join("/") + "/";
         this.watcher(filePath, callBack);
-        callBack.apply(self, ["start"]);
+        callBack.apply( self , arguments );
     };
 
 };
